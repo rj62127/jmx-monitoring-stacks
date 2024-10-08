@@ -1,204 +1,57 @@
-# Overview
 
-This repo demonstrates examples of JMX monitoring stacks that can monitor Confluent Cloud and Confluent Platform.
-While Confluent Cloud UI and Confluent Control Center provides an opinionated view of Apache Kafka monitoring, JMX monitoring stacks serve a larger purpose to our users, allowing them to setup monitoring across multiple parts of their organization, many outside of Kafka, and to have a single pane of glass.
+# Confluent CP Demo with JMX Monitoring Setup
 
-This project provides metrics and dashboards for:
+## Step 1: Clone the cp-demo repository
 
-- [Confluent Platform with Prometheus and Grafana](jmxexporter-prometheus-grafana)
-- [Confluent Platform on Kubernetes with Prometheus and Grafana](jmxexporter-prometheus-grafana/cfk)
-- [Confluent Platform with New Relic](jmxexporter-newrelic)
-- [Confluent Platform with Prometheus, Metricbeat and Kibana](metricbeat-elastic-kibana)
-- [Confluent Platform with Jolokia Agent](jolokia)
-- [Confluent Platform with Jolokia, Telegraf and InfluxDB](jolokia-telegraf-influxdb)
-- [Confluent Platform with Datadog agent](datadog)
-- [Confluent Cloud with Prometheus and Grafana](ccloud-prometheus-grafana)
-- [Confluent Cloud with Metricbeat and Kibana](ccloud-metricbeat-elastic-kibana)
-- [Confluent Cloud with Opentelemetry and New Relic](ccloud-opentelemetry-newrelic)
-
-## 📊 Dashboards
-
-**Some examples:**
-
-<p float="left">
-  <img src="jmxexporter-prometheus-grafana/img/kafka-cluster-0.png" width="250" height="200" />
-  <img src="jmxexporter-prometheus-grafana/img/kraft_2.png" width="250" height="200" /> 
-  <img src="jmxexporter-prometheus-grafana/img/kafka-quotas.png" width="250" height="200" /> 
-  <img src="jmxexporter-newrelic/img/Cluster.png" width="250" height="200" />
-  <img src="jmxexporter-newrelic/img/Throughput.png" width="250" height="200" />
-  <img src="metricbeat-elastic-kibana/img/kafka-overview.png" width="250" height="200" />
-  <img src="jolokia-telegraf-influxdb/img/kafka-cluster-0.png" width="250" height="200" />
-  <img src="datadog/img/overview.png" width="250" height="200" />
-</p>
-
-**List of available dashboards for Confluent Platform:**
-
-| Dashboard|Prometheus and Grafana| New Relic |Metricbeat and Kibana| Telegraf and Influx |Datadog|
-|-----------------------|----|-----------|--------------------|---------------------|---------------------|
-| Kafka Cluster         |yes| yes       | yes| yes                 |yes|
-| Zookeeper             |yes| yes       |yes|
-| KRaft                 |yes|
-| Schema Registry       |yes|           |yes|
-| Kafka Connect         |yes|           |yes|
-| ksqlDB                |yes|           |yes|
-| Producer/Consumer     |yes| yes       |yes|                     |yes|
-| Lag Exporter          |yes|           ||
-| Topics                |yes|           |yes|
-| Kafka Streams         |yes|           ||
-| Kafka Streams RocksDB |yes|           ||
-| Quotas                |yes|           ||
-| TX Coordinator        |yes|           ||
-| Rest Proxy            |yes|           ||
-| Cluster Linking       |yes|           ||
-| Oracle CDC connector  |yes|           ||
-| Debezium connectors   |yes|           ||
-| Mongo connector       |yes|           ||
-| librdkafka clients    |yes|           ||
-| Confluent RBAC        |yes|           ||
-| Replicator            |yes|           ||
-| Tiered Storage        |yes|           ||
-
-**List of available dashboards for Confluent Cloud:**
-
-| Dashboard             | Prometheus and Grafana |New Relic|Metricbeat and Kibana|
-|-----------------------|------------------------|---------|---------------------|
-| Cluster               | yes                    | yes     | yes                 |
-| Producer/Consumer     |                        |      | yes                 |
-| ksql                  | yes                    |      |                  |
-| Billing/Cost tracking | yes                    |      |                  |
-
-## ⚠️ Alerts
-
-Alerts are available for the stacks:
-
- - [jmxexporter-prometheus-grafana](jmxexporter-prometheus-grafana/assets/prometheus/prometheus-alerts) including alerts on broker, zookeeper and kafka connect.
-
-
-# How to use with Confluent cp-ansible
-
-To add JMX exporter configurations to [Confluent cp-ansible](https://docs.confluent.io/ansible/current/overview.html), please refer to this [README](jmxexporter-prometheus-grafana/cp-ansible/README.md)
-
-# How to use with Kubernetes and Confluent for Kubernetes Operator (CFK)
-
-To add JMX exporter configurations to your Kubernetes workspace, please refer to this [README](jmxexporter-prometheus-grafana/cfk/README.md)
-
-# How to use with Confluent cp-demo
-
-This repo is intended to work smoothly with [Confluent cp-demo](https://github.com/confluentinc/cp-demo).
-
-Make sure you have enough system resources on the local host to run this.
-Verify in the advanced Docker preferences settings that the memory available to Docker is at least 8 GB (default is 2 GB).
-
-**NOTE:** [jq](https://jqlang.github.io/jq/) is required to be installed on your machine to run the demo.
-
-1. Ensure that cp-demo is not already running on the local host.
-
-2. Decide which monitoring stack to demo: and set the `MONITORING_STACK` variable accordingly.
-
-**NOTE:** New Relic requires a [License Key](https://docs.newrelic.com/docs/apis/intro-apis/new-relic-api-keys/#overview-keys) to be added in [_jmxexporter-newrelic/start.sh_](jmxexporter-newrelic/start.sh)
-
-**NOTE:** Datadog requires a [DATADOG_API_KEY](https://docs.datadoghq.com/account_management/api-app-keys/) and [DATADOG_SITE](https://docs.datadoghq.com/getting_started/site/) to be added in [_datadog/start.sh_](datadog/start.sh). Datadog offers 14 day trial for new users.
+Clone the Confluent demo repository using the following command:
 
 ```bash
-# Set only one of these
-MONITORING_STACK=jmxexporter-prometheus-grafana
-MONITORING_STACK=metricbeat-elastic-kibana
-MONITORING_STACK=jmxexporter-newrelic
-MONITORING_STACK=jolokia
-MONITORING_STACK=jolokia-telegraf-influxdb
-MONITORING_STACK=datadog
+git clone https://github.com/confluentinc/cp-demo.git
 ```
 
-3. Clone `cp-demo` and checkout a branch.
+Make sure to clone this into the root directory where the `jmx-monitoring-stacks` is placed.
+
+## Step 2: Set the CP_DEMO_HOME environment variable
+
+Once cloned, set the `CP_DEMO_HOME` environment variable by running:
 
 ```bash
-# Example with CP-DEMO 7.7.1 version
-CP_DEMO_VERSION=7.7.1-post
-
-[[ -d "cp-demo" ]] || git clone https://github.com/confluentinc/cp-demo.git
-(cd cp-demo && git fetch && git checkout $CP_DEMO_VERSION && git pull)
+export CP_DEMO_HOME=/path/to/cp-demo
 ```
 
-4. Clone `jmx-monitoring-stacks` and checkout main branch.
+Replace `/path/to/cp-demo` with the actual path where you have cloned the repository.
+
+## Step 3: Navigate to JMX Monitoring Directory
+
+Change your directory to the JMX monitoring stack location:
 
 ```bash
-[[ -d "jmx-monitoring-stacks" ]] || git clone https://github.com/confluentinc/jmx-monitoring-stacks.git
-(cd jmx-monitoring-stacks && git fetch && git checkout main && git pull)
+cd jmx-monitoring-stacks/jmxexporter-prometheus-grafana
 ```
 
-5. Start the monitoring solution with the STACK selected. This command also starts cp-demo, you do not need to start cp-demo separately.
+## Step 4: Run the Start Script
+
+Execute the following command to start the monitoring stack:
 
 ```bash
-${MONITORING_STACK}/start.sh
+sudo ./start.sh
 ```
 
-6. Stop the monitoring solution. This command also stops cp-demo, you do not need to stop cp-demo separately.
+This will initiate the JMX monitoring stack using Prometheus and Grafana.
 
-```bash
-${MONITORING_STACK}/stop.sh
-```
+## Conclusion
 
-# How to use with Apache Kafka client applications (producers, consumers, kafka streams applications)
+You have now successfully set up the Confluent CP demo with JMX monitoring.
 
-For an example that showcases how to monitor Apache Kafka client applications, and steps through various failure scenarios to see how they are reflected in the provided metrics, see the [Observability for Apache Kafka® Clients to Confluent Cloud tutorial](https://docs.confluent.io/cloud/current/get-started/examples/ccloud-observability/docs/index.html).
 
-# How to use with a minimal configuration: DEV-toolkit
+# Result
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/confluentinc/jmx-monitoring-stacks/)
-
-Dev-toolkit is an environment that allows you to easily create different configurations and deployments to verify the metrics exposed by different components of the Confluent Platform.
-
-To run a lightweight a **Default** environment, follow the next steps:
-
-1. `cd dev-toolkit`
-2. [Optional]: Put your new dashboards into the `grafana-wip` folder. All [existing grafana dashboards](jmxexporter-prometheus-grafana/assets/grafana/provisioning/dashboards) will be anyway loaded.
-3. `start.sh`
-4. For Grafana, go to http://localhost:3000, login with _admin/password_
-5. `stop.sh`
-
-## Run with profiles
-
-**Default** profile will create:
- - 1 Confluent Platform with KRaft and 4 brokers (_kafka1_,_kafka2_,_kafka3_,_kafka4_)
- - 1 kafka application implemented with Spring to fetch producer and consumer metrics
- - 1 kafka lag exporter
- - 1 grafana
- - 1 prometheus
-
-To add more use cases, we are leveraging the docker profiles. 
-
-To run replicator scenario, i.e. run `start.sh --profile replicator`. 
-
-It's possible to combine profiles as well, i.e. `start.sh --profile schema-registry --profile ksqldb`.
-
-Currently supported profiles:
-- _replicator_: it will add a Kafka connect cluster with Confluent Replicator between _kafka1-kafka2-kafka3-kafka4_ and a new cluster with 1 broker _broker-dest_
-- _schema-registry_: it will add Confluent Schema Registry
-- _schema-registry-primary-secondary_: it will add 2 Confluent Schema Registry, primary and secondary.
-- _ksqldb_: it will add ksqldb
-- _consumer_: it will add a demo application implemented with Spring with full client metrics
-- _consumer-minimal_: it will add a demo application implemented with Spring with a limited number of client metrics
-
-## FAQ
-
-- What if I need more components?
-
-More docker-compose envs will be released in the future, in the meantime you can use [Kafka Docker Composer](https://github.com/sknop/kafka-docker-composer) to create yours.
-
-- What if I need more prometheus jobs?
-
-You can add them to the `start.sh`, i.e.
-
-```
-# ADD client monitoring to prometheus config
-cat <<EOF >> assets/prometheus/prometheus-config/prometheus.yml
-
-  - job_name: 'spring-client'
-    static_configs:
-      - targets: ['spring-client:9191']
-        labels:
-          env: "dev"
-EOF
-```
-
-You can also change the prometheus configuration [here](https://github.com/confluentinc/jmx-monitoring-stacks/blob/main/jmxexporter-prometheus-grafana/assets/prometheus/prometheus-config/prometheus.yml).
+![alt text](<../images/Screenshot from 2024-10-08 12-41-29.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-43-33.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-43-53.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-43-59.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-44-03.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-44-18.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-44-37.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-44-48.png>)
+![alt text](<../images/Screenshot from 2024-10-08 12-45-13.png>)
