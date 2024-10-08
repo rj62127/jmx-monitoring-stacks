@@ -46,12 +46,12 @@ You have now successfully set up the Confluent CP demo with JMX monitoring.
 
 # Result
 
-![alt text](<../images/Screenshot from 2024-10-08 12-41-29.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-43-33.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-43-53.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-43-59.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-44-03.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-44-18.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-44-37.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-44-48.png>)
-![alt text](<../images/Screenshot from 2024-10-08 12-45-13.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-41-29.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-43-33.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-43-53.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-43-59.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-44-03.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-44-18.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-44-37.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-44-48.png>)
+![alt text](<images/Screenshot from 2024-10-08 12-45-13.png>)
